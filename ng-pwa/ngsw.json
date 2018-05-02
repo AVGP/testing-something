@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "index": "/ng-pwa/ng-pwa/index.html",
+  "index": "/testing-something/ng-pwa/ng-pwa/index.html",
   "assetGroups": [
     {
       "name": "app",
