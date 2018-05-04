@@ -1,0 +1,88 @@
+<script>
+// drawer menu
+class DrawerMenu extends HTMLElement {
+  constructor() {
+    super()
+
+    this.template = `
+      <style>
+        aside {
+          position: fixed;
+          top: 0;
+          left: -200px;
+          width: 200px;
+          min-height: 100vh;
+          box-sizing: border-box;
+          background: #eee;
+          transition: left 1.2s ease;
+          z-index: 2;
+        }
+        aside.active {
+          left: 0;
+        }
+        ul {
+          list-type: none;
+          margin: 0;
+          padding: 0;
+        }
+        li {
+          display: block;
+          padding: 1em;
+          border-bottom: 1px solid gray;
+          backgrond: white;
+          color: black;
+          transition: background 1s, color 1s;
+        }
+        li:hover {
+          background: black;
+        }
+        li:hover a, li:hover a:visited {
+          color: white;
+        }
+        button {
+          position: fixed;
+          top: 5px;
+          left: 5px;
+          padding: 2px;
+          background: #eee;
+          border: 1px solid black;
+          border-radius: 0.2em;
+          z-index: 3;
+        }
+
+        nav {
+          margin-top: 1em;
+        }
+
+        @media(min-width: 30em) {
+          button {
+            display: none;
+          }
+
+          aside {
+            top: 0;
+            left: 0;
+          }
+        }
+      </style>
+      <aside>
+        <nav>
+          <ul>
+            <li><a href="./">Home</a></li>
+            <li><a href="./my-schedule">My schedule</li>
+            <li><a href="./map">Map</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <button onclick="this.parentNode.querySelector('aside').classList.toggle('active')">Menu</button>
+    `
+  }
+
+  connectedCallback() {
+    this.attachShadow({mode: 'open'})
+    this.shadowRoot.innerHTML = this.template
+  }
+}
+
+window.customElements.define('drawer-menu', DrawerMenu);
+</script>

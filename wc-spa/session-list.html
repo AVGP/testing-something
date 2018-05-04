@@ -1,0 +1,105 @@
+<template id="list">
+  <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style-type: none;
+      position: relative;
+      border: 1px solid #555;
+      border-radius: 0.25em;
+      padding: 1em;
+      padding-right: 100px;
+      min-height: 100px;
+      margin: 1em;
+    }
+
+    li img {
+      position: absolute;
+      right: 5px;
+      height: 100px;
+    }
+  </style>
+  <ul>
+  </ul>
+</template>
+
+<template id="item">
+  <li>
+    <img>
+    <h2></h2>
+    <p></p>
+  </li>
+</template>
+
+<script>
+const SESSIONS = [
+  {
+    title: 'Welcome',
+    speaker: 'Example Conf Team',
+    timeSlot: '9:45 - 10:00'
+  },
+  {
+    title: 'The future of examples',
+    speaker: 'Alice Awesome',
+    imgUrl: `https://robohash.org/Alice+Random?set=set4`,
+    timeSlot: '10:00 - 11:00'
+  },
+  {
+    title: 'The art of successful examples',
+    speaker: 'Bob Bughunter',
+    imgUrl: `https://robohash.org/Bob+Bughunter?set=set4`,
+    timeSlot: '11:15 - 11:45'
+  },
+  {
+    title: 'Lunch',
+    speaker: '',
+    timeSlot: '11:45 - 13:00'
+  },
+  {
+    title: 'A tour of example creation',
+    speaker: 'Cecilia Codemaker',
+    imgUrl: `https://robohash.org/Cecilia+Codemaker?set=set4`,
+    timeSlot: '13:00 - 13:30'
+  },
+  {
+    title: 'The human side of examples',
+    speaker: 'David Debugger',
+    imgUrl: `https://robohash.org/David+Debugger?set=set4`,
+    timeSlot: '13:45 - 14:15'
+  }  
+];
+
+const listTpl = document.currentScript.ownerDocument.getElementById('list').content;
+const itemTpl = document.currentScript.ownerDocument.getElementById('item').content;
+
+class SessionList extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.attachShadow({mode: 'open'})
+    let list = document.importNode(listTpl, true)
+
+    for (let session of SESSIONS) {
+      let item = document.importNode(itemTpl, true)
+      item.querySelector('h2').textContent = session.title;
+      item.querySelector('p').textContent = `${session.timeSlot} ${session.speaker ? 'by' : ''} ${session.speaker}`
+      if (session.imgUrl) {
+        item.querySelector('img').src = session.imgUrl
+        item.querySelector('img').setAttribute('alt', session.speaker)      
+      }
+      list.appendChild(item)
+    }
+
+    this.shadowRoot.appendChild(list)
+
+  }
+}
+
+window.customElements.define('session-list', SessionList);
+</script>
